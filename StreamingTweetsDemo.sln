@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamingTweetsDemo", "StreamingTweetsDemo\StreamingTweetsDemo.csproj", "{178AA10C-A09A-4CF1-911B-7FA1F35DBD65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamingTweetsLibrary", "StreamingTweetsLibray\StreamingTweetsLibrary.csproj", "{1D7E8782-5298-4140-86D8-3AA4FA1EFE7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{178AA10C-A09A-4CF1-911B-7FA1F35DBD65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178AA10C-A09A-4CF1-911B-7FA1F35DBD65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178AA10C-A09A-4CF1-911B-7FA1F35DBD65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178AA10C-A09A-4CF1-911B-7FA1F35DBD65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7E8782-5298-4140-86D8-3AA4FA1EFE7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7E8782-5298-4140-86D8-3AA4FA1EFE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7E8782-5298-4140-86D8-3AA4FA1EFE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7E8782-5298-4140-86D8-3AA4FA1EFE7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04D556EC-533F-48E3-A6E7-6F016337EB33}
+	EndGlobalSection
+EndGlobal

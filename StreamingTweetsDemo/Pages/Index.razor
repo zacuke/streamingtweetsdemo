@@ -1,0 +1,48 @@
+﻿@page "/"
+@using StreamingTweetsLibrary.Interfaces;
+@inject IStorage storage
+
+<PageTitle>Index</PageTitle>
+<div class="row">
+    <fieldset class="col-lg-6">
+        <legend>Processing stats:</legend>
+        <p>Tweets Processed: @totalTweets</p>
+        <p>Per Minute: @avgTweets</p>
+        <p>Per Second: @avgTweetsPerSec</p>
+    </fieldset>
+    <fieldset class="col-lg-6">
+
+        <legend>Random tweet:</legend>
+        @mostRecentTweet
+    </fieldset>
+</div>
+@code {
+    private string totalTweets = " ... ";
+    private string avgTweets = " ... ";
+    private string avgTweetsPerSec = " ... ";
+    private string mostRecentTweet = " ... ";
+
+    protected override void OnInitialized()
+    {
+        UpdateUI();
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+             InvokeAsync(() =>
+             {
+                 UpdateUI();
+                 StateHasChanged();
+             });
+         }), null, 1000, 1000);
+    }
+    protected void UpdateUI()
+    {
+        totalTweets = storage.TotalCount.ToString();
+        if (storage.AvgTweetsPerMin > 0)
+        {
+            avgTweets = storage.AvgTweetsPerMin.ToString();
+            avgTweetsPerSec = (storage.AvgTweetsPerMin / 60).ToString();
+        }
+        if (storage.MostRecentTweet.Length > 0)
+            mostRecentTweet = storage.MostRecentTweet;
+    }
+}
