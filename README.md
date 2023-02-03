@@ -1,15 +1,17 @@
-# streamingtweetsdemo
+## To run the app
 
 Put the Twitter bearer token in appsettings.json
 
   "StreamingTweetsDemo": {
     "BearerToken": "<token here>"
   }
+  
+  Hit Go and it display  a web page  and show statistics in a few moments.
 
-# To keep secrets out of source control:
+## To keep secrets out of source control:
 
-Initially I use secrets.json (right click project and click Manage Secrets)
-Eventually, I use Azure key vault and add code like this:
+For dev, I use secrets.json (right click project and click Manage Secrets)
+For servers (works for dev too), I use Azure key vault and add code like this:
 
 ```
 builder.Configuration.AddAzureKeyVault(
