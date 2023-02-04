@@ -13,20 +13,29 @@ namespace StreamingTweetsLibrary.Services
 
 
         protected override int IntervalSeconds { get; set; } = 5;
-
+        private readonly ILogger _logger;
         public TwitterSampler(IStorage storage, ILogger<TimerHostedService> logger) : base(logger)
         {
             _storage = storage;
+            _logger = logger;
         }
 
 
         protected override void Execute(object? state)
         {
-
-            var numberOfMinutes = (DateTime.Now - _storage.AvgTweetsStart).TotalMinutes;
-            if (numberOfMinutes > 0)
+            try { 
+                var numberOfMinutes = (DateTime.Now - _storage.AvgTweetsStart).TotalMinutes;
+                if (numberOfMinutes > 0)
+                {
+                    _storage.AvgTweetsPerMin = (long)(_storage.TotalCount / numberOfMinutes);
+                }
+            }
+            catch (Exception ex)
             {
-                _storage.AvgTweetsPerMin = (long)(_storage.TotalCount / numberOfMinutes);
+                _logger.LogError(ex, "Error during TwitterSampler process");
+
+                //todo replace throw with handling
+                throw;
             }
         }
     }

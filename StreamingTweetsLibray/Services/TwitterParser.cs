@@ -7,6 +7,7 @@ using StreamingTweetsLibrary.Abstract;
 using StreamingTweetsLibrary.Interfaces;
 using StreamingTweetsLibrary.Models;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 
 namespace StreamingTweetsLibrary.Services
 {
@@ -29,23 +30,33 @@ namespace StreamingTweetsLibrary.Services
             _logger.LogTrace("Execute");
             while (true)
             {
-                if (_twitterStorage.IncomingTweets.TryDequeue(out var next))
+                try
                 {
-                    var stream = new MemoryStream(Encoding.UTF8.GetBytes(next));
-                    var parsedTweet = await JsonSerializer.DeserializeAsync<SingleTweetWrapper>(stream);
+                    if (_twitterStorage.IncomingTweets.TryDequeue(out var next))
+                    {
+                        var stream = new MemoryStream(Encoding.UTF8.GetBytes(next));
+                        var parsedTweet = await JsonSerializer.DeserializeAsync<SingleTweetWrapper>(stream);
 
-                    if (parsedTweet is null)
-                        throw new Exception("Unable to deserialize data from Twitter");
+                        if (parsedTweet is null)
+                            throw new Exception("Unable to deserialize data from Twitter");
 
-                    _twitterStorage.MostRecentTweet = parsedTweet.data.text;
+                        _twitterStorage.MostRecentTweet = parsedTweet.data.text;
 
-                    _twitterStorage.IncrementTotalCount();
+                        _twitterStorage.IncrementTotalCount();
 
+                    }
+                    else
+                    {
+                        //wait for more strings
+                        await Task.Delay(1);
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    //wait for more strings
-                    await Task.Delay(1);
+                    _logger.LogError(ex, "Error during TwitterParser process");
+
+                    //todo replace throw with handling
+                    throw;
                 }
             }
         }

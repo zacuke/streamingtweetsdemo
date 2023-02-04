@@ -15,10 +15,12 @@ namespace StreamingTweetsLibrary.Services
 
         private readonly IConfiguration _configuration;
         private readonly IStorage _storage;
+        private readonly ILogger _logger;
         public TwitterReader(IConfiguration configuration, IStorage storage, ILogger<TwitterReader> logger) : base(logger)
         {
             _configuration = configuration;
             _storage = storage;
+            _logger = logger;
         }
 
         protected override async Task Execute(CancellationToken stoppingToken)
@@ -40,10 +42,20 @@ namespace StreamingTweetsLibrary.Services
 
             while ((theLine = await streamReader.ReadLineAsync()) != null)
             {
-                if (theLine.Length > 0)
+                try 
+                { 
+                    if (theLine.Length > 0)
+                    {
+                        _storage.BeginStats();
+                        _storage.IncomingTweets.Enqueue(theLine);
+                    }
+                }
+                catch (Exception ex)
                 {
-                    _storage.BeginStats();
-                    _storage.IncomingTweets.Enqueue(theLine);
+                    _logger.LogError(ex, "Error during TwitterReader process");
+
+                    //todo replace throw with handling
+                    throw;
                 }
 
             }
